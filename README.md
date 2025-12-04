@@ -7,10 +7,10 @@ A modern web app designed to help businesses reduce inventory shrinkage and prot
 - Analytics dashboards with actionable insights
 - Simple, responsive UI for business owners
 
-## 🛠️ Tech Stack
-**Frontend: ** React + Next.js
-**Deployment:** Vercel
-**Styling:** TailwindCSS
+## 🛠️ Tech Stack   
+**Frontend:** React + Next.js   
+**Deployment:** Vercel   
+**Styling:** TailwindCSS   
 
 ## 🚀 Getting Started
 1. Open the link to view the project
