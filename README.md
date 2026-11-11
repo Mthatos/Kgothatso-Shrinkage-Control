@@ -1,16 +1,20 @@
-# Kgothatso Shrinkage Control
-A modern web app designed to help businesses reduce inventory shrinkage and protect profits through real‑time tracking, analytics, and loss‑prevention strategies.
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
-## 🚀 Features
-- Real‑time inventory monitoring
-- Shrinkage prevention tools & strategies
-- Analytics dashboards with actionable insights
-- Simple, responsive UI for business owners
+# Run and deploy your AI Studio app
 
-## 🛠️ Tech Stack   
-**Frontend:** React + Next.js   
-**Deployment:** Vercel   
-**Styling:** TailwindCSS   
+This contains everything you need to run your app locally.
 
-## 🚀 Getting Started
-1. Open the link to view the project
+View your app in AI Studio: https://ai.studio/apps/c7f88494-d7ec-4782-8a82-03e654814e22
+
+## Run Locally
+
+**Prerequisites:**  Node.js
+
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

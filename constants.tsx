@@ -1,23 +1,7 @@
 import React from 'react';
 
-export const Logo: React.FC = () => (
-  <div className="flex items-center gap-3" aria-label="Kgothatso Shrinkage Control">
-    {/* Abstract eagle icon with a white body and red head */}
-    <svg viewBox="0 0 40 40" className="h-10 w-10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M5 35 C 15 20 25 15 35 5 L 5 5 Z" fill="white"/>
-      <path d="M35 5 C 40 15 40 25 35 35 L 35 5 Z" fill="#e53e3e"/>
-    </svg>
-    <div className="flex flex-col">
-      <span className="text-2xl font-black tracking-tighter leading-none">
-        <span className="text-white">Kgothats</span><span className="text-brand-red">o</span>
-      </span>
-      <span className="text-xs font-semibold text-brand-red tracking-wide leading-none mt-1">
-        SHRINKAGE CONTROL
-      </span>
-    </div>
-  </div>
-);
-
+export const APP_LOGO = 'https://raw.githubusercontent.com/Mthatos/Kgothatso-Shrinkage-Control/feature-enhancement-202611/logos_and_thumbnails/Logo%20clean.jpg';
+export const LOGO_BASE64 = APP_LOGO;
 
 export const IconBolt = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

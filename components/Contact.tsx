@@ -1,152 +1,186 @@
-import React, { useState, useRef } from 'react';
-
-// This tells TypeScript that emailjs will be available on the global scope
-declare const emailjs: any;
+import React, { useState } from 'react';
+import { Mail, Phone, MapPin, Send, CheckCircle2 } from 'lucide-react';
 
 const Contact: React.FC = () => {
-  const form = useRef<HTMLFormElement>(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
-  const [statusMessage, setStatusMessage] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.current) return;
-    
-    setStatus('sending');
-    setStatusMessage('');
-
-    const serviceID = 'service_opq3lea';
-    const templateID = 'template_lhcwkvm';
-    const publicKey = '8PT7MaT5kicnGM5FJ';
-    
-    emailjs.sendForm(serviceID, templateID, form.current, publicKey)
-      .then(
-        () => {
-          setStatus('sent');
-          setStatusMessage('Message sent successfully!');
-          setFormData({ name: '', email: '', message: '' });
-          setTimeout(() => {
-            setStatus('idle');
-            setStatusMessage('');
-          }, 5000); // Reset status after 5 seconds
-        },
-        (error: any) => {
-          setStatus('error');
-          setStatusMessage('Failed to send message. Please try again later.');
-          console.error('EmailJS Error:', error);
-          setTimeout(() => {
-            setStatus('idle');
-            setStatusMessage('');
-          }, 5000); // Reset status after 5 seconds
-        }
-      );
+    if (!formData.name || !formData.email || !formData.message) return;
+    setSubmitted(true);
   };
 
   return (
-    <section id="contact" className="py-20 sm:py-32 bg-dark-bg">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="py-24 sm:py-32 bg-dark-bg relative overflow-hidden border-t border-gray-900">
+      {/* Background Ambience */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div className="absolute bottom-0 left-1/4 w-[500px] h-[400px] bg-brand-red/5 rounded-full blur-[140px]"></div>
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">Contact Us</h2>
-          <p className="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">
-            Have questions or need a consultation? Reach out to us.
+          <div className="inline-flex items-center gap-2 mb-3">
+            <span className="w-6 h-0.5 bg-brand-red"></span>
+            <span className="text-xs uppercase tracking-widest text-brand-red font-bold">
+              Direct Inquiries
+            </span>
+            <span className="w-6 h-0.5 bg-brand-red"></span>
+          </div>
+
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Contact Our Inventory Specialists
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-gray-400 max-w-2xl mx-auto">
+            Schedule an on-site retail shrinkage evaluation or consult with our lead inventory auditors.
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="bg-dark-card p-8 rounded-lg shadow-lg">
-            <h3 className="text-2xl font-bold text-white mb-6">Get in Touch</h3>
-            <form ref={form} onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="sr-only">Full name</label>
-                <input 
-                  type="text" 
-                  name="name" 
-                  id="name" 
-                  autoComplete="name" 
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="block w-full bg-gray-800 border-gray-600 rounded-md py-3 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red" 
-                  placeholder="Full name" 
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="sr-only">Email</label>
-                <input 
-                  type="email" 
-                  name="email" 
-                  id="email" 
-                  autoComplete="email" 
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="block w-full bg-gray-800 border-gray-600 rounded-md py-3 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red" 
-                  placeholder="Email address" 
-                />
-              </div>
-              <div>
-                <label htmlFor="message" className="sr-only">Message</label>
-                <textarea 
-                  id="message" 
-                  name="message" 
-                  rows={4} 
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  className="block w-full bg-gray-800 border-gray-600 rounded-md py-3 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red" 
-                  placeholder="Your message"
-                ></textarea>
-              </div>
-              <div>
-                <button 
-                  type="submit" 
-                  disabled={status === 'sending'}
-                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-brand-red hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-brand-red transition-colors disabled:bg-red-900 disabled:cursor-not-allowed"
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start max-w-5xl mx-auto">
+          {/* Contact Form */}
+          <div className="bg-dark-card p-8 rounded-2xl border border-gray-800 shadow-xl">
+            <h3 className="text-xl font-bold text-white mb-6">Send an Audit Request</h3>
+
+            {submitted ? (
+              <div className="p-6 bg-emerald-950/40 border border-emerald-800/60 rounded-xl text-center space-y-3">
+                <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto" />
+                <h4 className="text-base font-bold text-white">Message Received</h4>
+                <p className="text-xs text-emerald-200">
+                  Thank you, {formData.name}. A senior auditor will review your retail requirements and reach out within 24 hours.
+                </p>
+                <button
+                  onClick={() => {
+                    setSubmitted(false);
+                    setFormData({ name: '', email: '', message: '' });
+                  }}
+                  className="text-xs text-gray-400 hover:text-white underline pt-2 block mx-auto"
                 >
-                  {status === 'sending' ? 'Sending...' : 'Send Message'}
+                  Send another inquiry
                 </button>
               </div>
-               {statusMessage && (
-                <p className={`text-center text-sm font-medium ${status === 'error' ? 'text-red-500' : 'text-green-500'}`}>
-                  {statusMessage}
-                </p>
-              )}
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">
+                    Full Name or Company Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="block w-full bg-gray-900 border border-gray-700 rounded-xl py-3 px-4 text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-brand-red"
+                    placeholder="e.g. Clifford Thabo / Midrand Supermarket"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    id="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="block w-full bg-gray-900 border border-gray-700 rounded-xl py-3 px-4 text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-brand-red"
+                    placeholder="you@company.co.za"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1">
+                    Store Type &amp; Locations *
+                  </label>
+                  <textarea
+                    id="message"
+                    required
+                    rows={4}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="block w-full bg-gray-900 border border-gray-700 rounded-xl py-3 px-4 text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-brand-red"
+                    placeholder="Describe your store branches, inventory frequency, or stocktaking challenges..."
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full flex justify-center items-center gap-2 py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-brand-red hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-card focus:ring-brand-red transition-all transform active:scale-98"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>Submit Inquiry</span>
+                </button>
+              </form>
+            )}
           </div>
-          <div className="text-gray-300">
-            <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
-            <div className="space-y-4 text-lg">
-              <p className="flex items-start">
-                <span className="w-6 h-6 mr-4 mt-1 text-brand-red">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                </span>
-                <a href="mailto:cliffordthabo32@gmail.com" className="hover:text-brand-red">cliffordthabo32@gmail.com</a>
-              </p>
-              <p className="flex items-start">
-                 <span className="w-6 h-6 mr-4 mt-1 text-brand-red">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                </span>
-                <span>+27 81 715 3073</span>
-              </p>
-              <p className="flex items-start">
-                <span className="w-6 h-6 mr-4 mt-1 text-brand-red">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecaption="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                </span>
-                <span>
-                  563 Olivertambo Street, Klipfontein View, <br />Midrand, 1685
-                </span>
+
+          {/* Contact Information & Branches */}
+          <div className="space-y-6">
+            <div className="bg-dark-card p-8 rounded-2xl border border-gray-800 shadow-xl space-y-6">
+              <h3 className="text-xl font-bold text-white">Headquarters &amp; Direct Line</h3>
+
+              <div className="space-y-5 text-sm text-gray-300">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-brand-red/15 text-brand-red border border-brand-red/30 flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-xs uppercase tracking-wider text-gray-400 block font-semibold">
+                      Email Inquiries
+                    </span>
+                    <a
+                      href="mailto:cliffordthabo32@gmail.com"
+                      className="text-white hover:text-brand-red transition-colors font-medium text-base"
+                    >
+                      cliffordthabo32@gmail.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-brand-red/15 text-brand-red border border-brand-red/30 flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-xs uppercase tracking-wider text-gray-400 block font-semibold">
+                      Phone / WhatsApp
+                    </span>
+                    <a
+                      href="tel:+27817153073"
+                      className="text-white hover:text-brand-red transition-colors font-mono font-bold text-base"
+                    >
+                      +27 81 715 3073
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-brand-red/15 text-brand-red border border-brand-red/30 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-xs uppercase tracking-wider text-gray-400 block font-semibold">
+                      Primary Operational Base
+                    </span>
+                    <p className="text-white text-sm font-medium leading-relaxed">
+                      563 Olivertambo Street, Klipfontein View,
+                      <br />
+                      Midrand, Gauteng, 1685
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Operating Coverage Card */}
+            <div className="p-5 rounded-2xl bg-gray-900/60 border border-gray-800 text-xs text-gray-400 space-y-1.5">
+              <span className="font-bold text-white uppercase tracking-wider block">
+                Regional On-Site Service Coverage
+              </span>
+              <p>
+                Johannesburg Metro &bull; Midrand &bull; Pretoria &bull; Centurion &bull; Ekurhuleni &bull; Greater Gauteng
               </p>
             </div>
           </div>
